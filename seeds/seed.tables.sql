@@ -29,7 +29,7 @@ VALUES
   (6, 1, 'la guitarra', 'guitar', 7),
   (7, 1, 'el violoncelo ', 'cello', 8),
   (8, 1, 'el címbalo', 'cymbal', 9),
-  (9, 1, 'el címbalo', 'cymbal', 10),
+  (9, 1, 'la flauta', 'flute', 10),
   (10, 1, 'el órgano', 'organ', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;

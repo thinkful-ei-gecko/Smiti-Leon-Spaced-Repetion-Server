@@ -1,7 +1,7 @@
 CREATE TABLE "word" (
   "id" SERIAL PRIMARY KEY,
-  "original" TEXT NOT NULL,
-  "translation" TEXT NOT NULL,
+  "original" text NOT NULL,
+  "translation" text NOT NULL,
   "memory_value" SMALLINT DEFAULT 1,
   "correct_count" SMALLINT DEFAULT 0,
   "incorrect_count" SMALLINT DEFAULT 0,
