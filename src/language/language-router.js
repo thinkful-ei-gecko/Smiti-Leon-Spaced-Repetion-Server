@@ -7,6 +7,7 @@ const languageRouter = express.Router()
 languageRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
+    console.log(req);
     try {
       const language = await LanguageService.getUsersLanguage(
         req.app.get('db'),

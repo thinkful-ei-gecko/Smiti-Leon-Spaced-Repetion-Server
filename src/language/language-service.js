@@ -14,7 +14,7 @@ const LanguageService = {
   },
 
   getLanguageWords(db, language_id) {
-    return db
+    let response = db
       .from('word')
       .select(
         'id',
@@ -26,7 +26,10 @@ const LanguageService = {
         'correct_count',
         'incorrect_count',
       )
-      .where({ language_id })
+      .where({ language_id });
+      console.log('---------------------->')
+    console.log(response);
+    return response;
   },
 }
 
