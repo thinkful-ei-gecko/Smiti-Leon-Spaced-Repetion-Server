@@ -31,7 +31,10 @@ const LanguageService = {
   },
 
   getHead(db, language_id) {
-    let response = db.raw('select * from word join language on language.head = word.id where word.language_id=?',language_id);
+    let response = db.raw('select * from word join language on language.head = word.id where word.language_id=?',language_id)
+    .then(rows => {
+      return rows.rows[0];
+    })
     return response;
   }
 }

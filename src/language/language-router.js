@@ -50,13 +50,18 @@ languageRouter
       req.app.get('db'),
       req.language.id,
     )
+    let responseObj = {
+      totalScore: head.total_score,
+      wordCorrectCount: head.correct_count,
+      wordIncorrectCount: head.incorrect_count,
+      nextWord: head.original
+    }
 
-    res.json({
-      head
-    })
+    res.json(responseObj)
     next()
   }
   catch(error) {
+    console.log('----------------------------------> error');
     next(error)
   }
   })
