@@ -7,7 +7,6 @@ const languageRouter = express.Router()
 languageRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
-    console.log(req);
     try {
       const language = await LanguageService.getUsersLanguage(
         req.app.get('db'),
@@ -46,8 +45,20 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    // implement me
-    res.send('implement me!')
+    try {
+    const head = await LanguageService.getHead(
+      req.app.get('db'),
+      req.language.id,
+    )
+
+    res.json({
+      head
+    })
+    next()
+  }
+  catch(error) {
+    next(error)
+  }
   })
 
 languageRouter

@@ -27,10 +27,13 @@ const LanguageService = {
         'incorrect_count',
       )
       .where({ language_id });
-      console.log('---------------------->')
-    console.log(response);
     return response;
   },
+
+  getHead(db, language_id) {
+    let response = db.raw('select * from word join language on language.head = word.id where word.language_id=?',language_id);
+    return response;
+  }
 }
 
 module.exports = LanguageService
