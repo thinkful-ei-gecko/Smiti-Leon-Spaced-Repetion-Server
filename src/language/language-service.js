@@ -7,7 +7,7 @@ const LanguageService = {
         'language.name',
         'language.user_id',
         'language.head',
-        'language.total_score',
+        'language.total_score'
       )
       .where('language.user_id', user_id)
       .first()
@@ -35,6 +35,21 @@ const LanguageService = {
     .then(rows => {
       return rows.rows[0];
     })
+    return response;
+  },
+  
+  updateWord(db, language_id, word_id, memory_value, correct_count, incorrect_count, next) {
+    let response = db('word').where({language_id: language_id, word_id: word_id}).update({memory_value: memory_value, correct_count: correct_count, incorrect_count: incorrect_count, next: next});
+    return response;
+  },
+
+  updateScore(db, language_id, totalScore) {
+    let response = db('language').where({language_id: language_id}).update({total_score: totalScore})
+    return response;
+  },
+
+  updateHead(db, language_id, head) {
+    let response = db('language').where({language_id: language_id}).update({head: head});
     return response;
   }
 }
