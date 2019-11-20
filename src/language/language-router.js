@@ -100,10 +100,6 @@ languageRouter
       req.language.id
     );
 
-    console.log(headObj);
-    console.log('words----');
-    console.log(words);
-
     //insert words into a linked list
     let wordsLL = new LinkedList;
     for (let i=0;i<words.length;i++) {
@@ -116,29 +112,34 @@ languageRouter
         correct_count: words[i].correct_count,
         incorrect_count: words[i].incorrect_count
       }
-      console.log('---------insertword-------');
-      console.log(insertWord);
       wordsLL.insertLast(insertWord);
     }
-    console.log('wordsLL.head------------------');
-    console.log(wordsLL.head);
     let translation = head.translation;
+
+    console.log('linked list');
+    console.log(wordsLL);
 
     if (guess.toLowerCase() !== translation.toLowerCase()) {
       console.log('not correct');
 
       let totalScore = head.totalScore > 0 ? head.totalScore - 1 : 0;
 
-      let removedOld = wordsLL.remove(headObj);
-      console.log('removed successfully if');
-      console.log(removedOld);
-      removedOld.incorrect_count = removedOld.incorrect_count + 1;
-      removedOld.memory_value = 1;
-      wordsLL.insertAt(removedOld, removedOld.memoryValue);
-      console.log('first stop');
+      await wordsLL.moveToNext();
+      headObj.memory_value = 1;
+      wordsLL.insertAt(headObj, headObj.memory_value);
+      console.log(wordsLL);
+      console.log('----');
+      console.log(wordsLL.head.next);
+      let newHeadID = wordsLL.head.value.id;
+      console.log(newHeadID);
+      await LanguageService.updateHead(req.app.get('db'),req.language.id, newHeadID);
+      let nextWordValue = await wordsLL.getNextWordValue();
+      await LanguageService.updateScore(req.app.get('db'),req.language.id, totalScore);
+      res.status(200).json({isCorrect: false, totalScore: totalScore, wordCorrectCount: headObj.correct_count, wordIncorrectCount: headObj.incorrect_count, answer: headObj.translation, nextWord: nextWordValue });
+      incorrect_count = headObj.incorrect_count + 1;
       let currNode = wordsLL.head;
-      let newHeadID = wordsLL.head.id;
-      console.log('second stop');
+      console.log('currNode');
+      console.log(currNode);
       while (currNode !== null) {
         LanguageService.updateWord(
           req.app.get('db'),
@@ -146,16 +147,19 @@ languageRouter
           currNode.id,
           currNode.memory_value,
           currNode.correct_count,
-          currNode.incorrect_count,
-          currNode.next
+          currNode.value.id === headObj.id ? incorrect_count : currNode.incorrect_count,
+          currNode.next == null ? null : currNode.next.value.id
         );
+        currNode = currNode.next;
       }
-      console.log('third stop');
-      await LanguageService.updateHead(req.app.get('db'),req.language.id, newHeadId);
-      await LanguageService.updateScore(req.app.get('db'),req.language.id, totalScore);
-      console.log('fourth stop');
-      res.status(200).json({isCorrect: false, totalScore: totalScore, wordCorrectCount: updatedHead.correct_count, wordIncorrectCount: updatedHead.incorrect_count, answer: updatedHead.translation, nextWord: updatedHead.original });
-      console.log('last stop');
+
+      // let updatedWords = await LanguageService.getLanguageWords(
+      //   req.app.get('db'),
+      //   req.language.id
+      // );
+
+      // console.log('updated words----------------');
+      // console.log(updatedWords);
       next();
     }
 

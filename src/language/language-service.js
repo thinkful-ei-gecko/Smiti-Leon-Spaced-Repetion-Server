@@ -39,17 +39,17 @@ const LanguageService = {
   },
   
   updateWord(db, language_id, word_id, memory_value, correct_count, incorrect_count, next) {
-    let response = db('word').where({language_id: language_id, word_id: word_id}).update({memory_value: memory_value, correct_count: correct_count, incorrect_count: incorrect_count, next: next});
+    let response = db('word').where({language_id: language_id}).andWhere({word_id: word_id}).update({memory_value: memory_value, correct_count: correct_count, incorrect_count: incorrect_count, next: next})
     return response;
   },
 
   updateScore(db, language_id, totalScore) {
-    let response = db('language').where({language_id: language_id}).update({total_score: totalScore})
+    let response = db('language').where({id: language_id}).update({total_score: totalScore})
     return response;
   },
 
   updateHead(db, language_id, head) {
-    let response = db('language').where({language_id: language_id}).update({head: head});
+    let response = db('language').where({id: language_id}).update({head: head});
     return response;
   }
 }
