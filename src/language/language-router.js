@@ -119,11 +119,10 @@ languageRouter
     }
 
     let originalHead = wordsLinkedList.head;
-    console.log('-------------linked list-->');
-    console.log(JSON.stringify(wordsLinkedList, null, 2));
+    // console.log('-------------linked list-->');
+    // console.log(JSON.stringify(wordsLinkedList, null, 2));
 
     //compare if guess is true or false
-    console.log(guess);
     if (guess.toLowerCase() !== head.translation.toLowerCase()) {
       //incorrect guess
       
@@ -132,7 +131,7 @@ languageRouter
 
       head.memory_value = 1;
 
-      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: head.correct_count, wordIncorrectCount: head.incorrect_count, totalScore: head.total_score, answer: head.translation, isCorrect: false})
+      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: next.correct_count, wordIncorrectCount: next.incorrect_count, totalScore: head.total_score, answer: head.translation, isCorrect: false})
 
       //set database and linked list to new information:
 
@@ -181,7 +180,7 @@ languageRouter
 
       let newTotalScore = head.total_score + 1
 
-      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: head.correct_count, wordIncorrectCount: head.incorrect_count, totalScore: newTotalScore, answer: head.translation, isCorrect: true})
+      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: next.correct_count, wordIncorrectCount: next.incorrect_count, totalScore: newTotalScore, answer: head.translation, isCorrect: true})
 
       //set database and linked list to new information:
 
