@@ -103,9 +103,6 @@ class LinkedList {
   }
 
   remove(value) {
-    console.log('value');
-    console.log(value);
-    console.log(this.head.value);
     if (this.head == null) { return; }
     if (this.head.next == null) {
       if (this.head.value === value) {
@@ -113,8 +110,6 @@ class LinkedList {
         return;
       }
       else {
-        console.log('first catch');
-        console.error(`Node with ${value} does not exist!`);
         return;
       }
     }
@@ -138,13 +133,10 @@ class LinkedList {
       previousNode.next = null;
       return;
     }
-    console.log('second catch');
-    console.error(`Node with ${value} does not exist!`);
   }
 
   moveToNext() {
     if (this.head == null) { 
-      console.error('there is nothing in this list');
       return;
     }
     this.head = this.head.next;

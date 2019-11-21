@@ -63,7 +63,6 @@ languageRouter
     next()
   }
   catch(error) {
-    console.log('----------------------------------> error');
     next(error)
   }
   })
@@ -73,7 +72,6 @@ languageRouter
 
     //check if the guess was properly sent through, and store it in `guess`
     let {guess } = req.body;
-    console.log(guess);
     if (!guess || guess === '') {
       return res.status(400).json({error: `Missing 'guess' in request body`})
     }
@@ -85,8 +83,6 @@ languageRouter
       req.language.id
     );
 
-    // console.log('----------------head-->');
-    // console.log(head);
 
     //get total words to use for both correct & incorrect answers
 
@@ -95,8 +91,6 @@ languageRouter
       req.language.id
     )
 
-    // console.log('----------------words-->');
-    // console.log(words);
 
     //set all words into a linked list starting with the head
     //put current head node aside
@@ -104,7 +98,9 @@ languageRouter
     let wordsLinkedList = new LinkedList();
     let currNodeID = head.head
     for(let i=0;i<words.length;i++) {
-      let currNodeItem = words.find(item => item.id === currNodeID)
+      let currNodeItem = words.find(item => {
+        return item.id === currNodeID
+      });
       let addItem = {
         id: currNodeItem.id,
         language_id: currNodeItem.language_id,
@@ -119,19 +115,14 @@ languageRouter
     }
 
     let originalHead = wordsLinkedList.head;
-    // console.log('-------------linked list-->');
-    // console.log(JSON.stringify(wordsLinkedList, null, 2));
 
     //compare if guess is true or false
     if (guess.toLowerCase() !== head.translation.toLowerCase()) {
       //incorrect guess
       
       let next = words.find(item => item.id === head.next);
-      let nextOriginal = next.original;
 
       head.memory_value = 1;
-
-      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: next.correct_count, wordIncorrectCount: next.incorrect_count, totalScore: head.total_score, answer: head.translation, isCorrect: false})
 
       //set database and linked list to new information:
 
@@ -142,47 +133,42 @@ languageRouter
       //incorrect count increase
       originalHead.value.incorrect_count = originalHead.value.incorrect_count + 1;
 
+
       //head to next
       //next to old head
       //old head to next's next
-      wordsLinkedList.head = wordsLinkedList.head.next;
-      let tempNode = wordsLinkedList.head.next;
-      wordsLinkedList.head.next = originalHead;
+      wordsLinkedList.head = wordsLinkedList.head.next;  //head to 1
+      let tempNode = wordsLinkedList.head.next; // = 3
+      wordsLinkedList.head.next = originalHead; // 1 -> 2
       originalHead.next = tempNode;
+
+      
       await LanguageService.updateHead(req.app.get('db'),req.language.id, head.next);
-
-
-    // console.log('-------------linked list-->');
-    // console.log(JSON.stringify(wordsLinkedList, null, 2));
       //update each word in the database
       let currNodeCycle = wordsLinkedList.head;
       while (currNodeCycle != null) {
-        // console.log('------------------currNodeCycle-->');
-        // console.log(currNodeCycle);
         let updateObject = {
           memory_value: currNodeCycle.value.memory_value,
           correct_count: currNodeCycle.value.correct_count,
           incorrect_count: currNodeCycle.value.incorrect_count,
           next: currNodeCycle.next != null ? currNodeCycle.next.value.id : null
         }
-        // console.log(updateObject.memory_value);
-        // console.log(updateObject.incorrect_count);
-        // console.log(updateObject.next);
         await LanguageService.updateWord(req.app.get('db'),req.language.id, currNodeCycle.value.id, updateObject.memory_value, updateObject.correct_count, updateObject.incorrect_count, updateObject.next);
         currNodeCycle = currNodeCycle.next;
       }
+
+      
+      res.status(200).json({nextWord: next.original, wordCorrectCount: next.correct_count, wordIncorrectCount: next.incorrect_count, totalScore: head.total_score, answer: head.translation, isCorrect: false})
+
+
     }
     else {
       let next = words.find(item => item.id === head.next);
-      console.log('--------------next.correct_count-->');
-      console.log(next.correct_count);
       let nextOriginal = next.original;
 
       head.memory_value *= 2;
 
       let newTotalScore = head.total_score + 1
-
-      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: next.correct_count, wordIncorrectCount: next.incorrect_count, totalScore: newTotalScore, answer: head.translation, isCorrect: true})
 
       //set database and linked list to new information:
 
@@ -200,25 +186,21 @@ languageRouter
       await LanguageService.updateHead(req.app.get('db'),req.language.id, head.next);
 
 
-    // console.log('-------------linked list-->');
-    // console.log(JSON.stringify(wordsLinkedList, null, 2));
       //update each word in the database
       let currNodeCycle = wordsLinkedList.head;
       while (currNodeCycle != null) {
-        // console.log('------------------currNodeCycle-->');
-        // console.log(currNodeCycle);
         let updateObject = {
           memory_value: currNodeCycle.value.memory_value,
           correct_count: currNodeCycle.value.correct_count,
           incorrect_count: currNodeCycle.value.incorrect_count,
           next: currNodeCycle.next != null ? currNodeCycle.next.value.id : null
         }
-        // console.log(updateObject.memory_value);
-        // console.log(updateObject.incorrect_count);
-        // console.log(updateObject.next);
         await LanguageService.updateWord(req.app.get('db'),req.language.id, currNodeCycle.value.id, updateObject.memory_value, updateObject.correct_count, updateObject.incorrect_count, updateObject.next);
         currNodeCycle = currNodeCycle.next;
       }
+
+      res.status(200).json({nextWord: nextOriginal, wordCorrectCount: next.correct_count, wordIncorrectCount: next.incorrect_count, totalScore: newTotalScore, answer: head.translation, isCorrect: true})
+
     }
     next();
   }
