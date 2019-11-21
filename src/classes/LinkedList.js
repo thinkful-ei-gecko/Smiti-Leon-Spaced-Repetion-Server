@@ -83,6 +83,25 @@ class LinkedList {
     console.error(`Node with position of ${numPosition} does not exist!`);
   }
 
+  insertAtOrLast(value, numPosition) {
+    let currNode = this.head;
+    if (numPosition === 0) {
+      this.head = new _Node(value, currNode.next);
+      return;
+    }
+    let count = 1;
+    while (currNode.next != null) {
+      if (count === numPosition) {
+        currNode.next = new _Node(value, currNode.next);
+        return;
+      }
+      currNode = currNode.next;
+      count++;
+    }
+
+    currNode.next = new _Node(value, null);
+  }
+
   remove(value) {
     console.log('value');
     console.log(value);
@@ -129,14 +148,6 @@ class LinkedList {
       return;
     }
     this.head = this.head.next;
-  }
-
-  getNextWordValue() {
-    if (this.head == null) {
-      console.error('there is nothing in this list');
-      return;
-    }
-    return this.head.value.original;
   }
 
   find(value) {

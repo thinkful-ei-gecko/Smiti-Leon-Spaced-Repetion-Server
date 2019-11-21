@@ -155,7 +155,7 @@ describe.only('Language Endpoints', function () {
       )
     })
 
-    it.skip(`responds with 400 required error when 'guess' is missing`, () => {
+    it(`responds with 400 required error when 'guess' is missing`, () => {
       const postBody = {
         randomField: 'test random field',
       }
@@ -169,7 +169,7 @@ describe.only('Language Endpoints', function () {
         })
     })
 
-    context.only(`Given incorrect guess`, () => {
+    context(`Given incorrect guess`, () => {
       const incorrectPostBody = {
         guess: 'incorrect',
       }
@@ -216,7 +216,7 @@ describe.only('Language Endpoints', function () {
         word => word.language_id === testLanguage.id
       )
 
-      it.skip(`responds with correct and moves head`, () => {
+      it(`responds with correct and moves head`, () => {
         const correctPostBody = {
           guess: testLanguagesWords[0].translation,
         }
@@ -235,7 +235,7 @@ describe.only('Language Endpoints', function () {
           })
       })
 
-      it.skip(`moves the word 2 spaces, increases score and correct count`, async () => {
+      it(`moves the word 2 spaces, increases score and correct count`, async () => {
         let correctPostBody = {
           guess: testLanguagesWords[0].translation,
         }

@@ -39,7 +39,7 @@ const LanguageService = {
   },
   
   updateWord(db, language_id, word_id, memory_value, correct_count, incorrect_count, next) {
-    let response = db('word').where({language_id: language_id}).andWhere({word_id: word_id}).update({memory_value: memory_value, correct_count: correct_count, incorrect_count: incorrect_count, next: next})
+    let response = db('word').where({language_id: language_id}).andWhere({id: word_id}).update({memory_value: memory_value, correct_count: correct_count, incorrect_count: incorrect_count, next: next})
     return response;
   },
 
@@ -49,7 +49,7 @@ const LanguageService = {
   },
 
   updateHead(db, language_id, head) {
-    let response = db('language').where({id: language_id}).update({head: head});
+    let response = db('language').where({id: language_id}).update({head: head})
     return response;
   }
 }
