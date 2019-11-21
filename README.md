@@ -1,52 +1,37 @@
-# Spaced repetition API!
+# El Instrumento
 
-## Local dev setup
+This is anapplication that helps a user learn a language using the
+spaced-repetition algorithm which is proven to increase the rate of 
+learning dramatically.
 
-If using user `dunder-mifflin`:
+## Server Information
 
-```bash
-mv example.env .env
-createdb -U dunder-mifflin spaced-repetition
-createdb -U dunder-mifflin spaced-repetition-test
-```
+This server runs on Node.js and uses Express.
 
-If your `dunder-mifflin` user has a password be sure to set it in `.env` for all appropriate fields. Or if using a different user, update appropriately.
+### Endpoints
+* /api/language/ - get - retrieves a list of words for a user
+* /api/language/guess - post -  a guess for a user
+* /api/auth/token - post - logs in a user
+* /api/auth/token - put - retrieves a new JWT key
+* /api/user/ - post - registers a user
 
-```bash
-npm install
-npm run migrate
-env MIGRATION_DB_NAME=spaced-repetition-test npm run migrate
-```
+## Tech
 
-And `npm test` should work at this point
+* Node.js
+* Express
+* Winston
+* Morgan
+* Helmet
+* Supertest
+* Mocha/Chai
 
-## Configuring Postgres
+## Links
 
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
+[Live Version](https://newest-spaced-rep-client.now.sh/)
+[Client Repo](https://github.com/thinkful-ei-gecko/Smiti-Leon-new-spaced-repetition-client)
+[Server Repo](https://github.com/thinkful-ei-gecko/Smiti-Leon-Spaced-Repetion-Server)
 
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-   3. E.g  on Ubuntu 18.04 probably: '/etc/postgresql/10/main/postgresql.conf'
-2. Find the `timezone` line and set it to `UTC`:
 
-```conf
-# - Locale and Formatting -
+## Screenshots
 
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
-
-## Scripts
-
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests mode `npm test`
-
-Run the migrations up `npm run migrate`
-
-Run the migrations down `npm run migrate -- 0`
+Coming soon!
