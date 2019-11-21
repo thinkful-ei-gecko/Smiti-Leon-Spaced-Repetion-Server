@@ -136,8 +136,8 @@ languageRouter
       //set database and linked list to new information:
 
       //totalscore - 1
-      let newTotalScore = head.total_score > 0 ? head.total_score - 1 : 0;
-      await LanguageService.updateScore(req.app.get('db'),req.language.id, newTotalScore);
+      // let newTotalScore = head.total_score > 0 ? head.total_score - 1 : 0;
+      // await LanguageService.updateScore(req.app.get('db'),req.language.id, newTotalScore);
 
       //incorrect count increase
       originalHead.value.incorrect_count = originalHead.value.incorrect_count + 1;
@@ -174,6 +174,8 @@ languageRouter
     }
     else {
       let next = words.find(item => item.id === head.next);
+      console.log('--------------next.correct_count-->');
+      console.log(next.correct_count);
       let nextOriginal = next.original;
 
       head.memory_value *= 2;
