@@ -1,37 +1,39 @@
 # El Instrumento
 
-This is anapplication that helps a user learn a language using the
-spaced-repetition algorithm which is proven to increase the rate of 
-learning dramatically.
-
-## Server Information
-
-This server runs on Node.js and uses Express.
-
-### Endpoints
-* /api/language/ - get - retrieves a list of words for a user
-* /api/language/guess - post -  a guess for a user
-* /api/auth/token - post - logs in a user
-* /api/auth/token - put - retrieves a new JWT key
-* /api/user/ - post - registers a user
-
-## Tech
-
-* Node.js
-* Express
-* Winston
-* Morgan
-* Helmet
-* Supertest
-* Mocha/Chai
+### Teammate: Leon Dail && Smiti Shakya
 
 ## Links
 
-[Live Version](https://newest-spaced-rep-client.now.sh/)
-[Client Repo](https://github.com/thinkful-ei-gecko/Smiti-Leon-new-spaced-repetition-client)
-[Server Repo](https://github.com/thinkful-ei-gecko/Smiti-Leon-Spaced-Repetion-Server)
+Link to live app: [Live Version](https://newest-spaced-rep-client.now.sh/) 
+Link to client repo: [Client Repo](https://github.com/thinkful-ei-gecko/Smiti-Leon-new-spaced-repetition-client)
+Link to API repo: [Server Repo](https://github.com/thinkful-ei-gecko/Smiti-Leon-Spaced-Repetion-Server)
 
 
-## Screenshots
+## Getting Started
 
-Coming soon!
+- Clone the repository and run npm i
+- Create local Postgresql databases: spaced-repetition and spaced-repetition-test
+- Run `npm run migrate` and `npm run migrate:test` to update each database
+- To seed, use terminal to enter root of application and run: `psql -d spaced-repettion -f ./seeds/seed.tables.sql`
+- Run `npm run dev` to start the server locally
+
+
+## Endpoints
+* ```POST /api/auth/token ``` - lets the user log in
+* ```POST /api/user/ ```  - registers a user
+* ```PUT /api/auth/token ``` - retrieves a new JWT key
+* ```GET /api/language/ ```  - retrieves a list of words for a user
+* ```POST /api/language/guess ``` - post a guess word for a user
+
+
+## Summary
+
+[Spaced Repetition](https://en.wikipedia.org/wiki/Spaced_repetition)? is technique that helps a user learn a language using thespaced-repetition algorithm which is proven to increase the rate of learning dramatically. El Instrumento is an application contains beginnings to learning the Spanish language, starting with the English/Spanish translations of common musical instruments.
+
+
+## Tech
+  - Node 
+  - Express, 
+  - PostgreSQL
+  - Heroku
+
